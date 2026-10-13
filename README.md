@@ -185,8 +185,13 @@ ALL SMOKE CHECKS PASSED
 
 ---
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) — setup, architecture invariants,
+commit conventions and the release process.
+
 ## License
 
-MIT. The lexer/parser/AST and language rules are written for the Cambridge
-9618 examination pseudocode as specified in the linked guide; the guide itself
-is © Cambridge University Press & Assessment.
+MIT. See [LICENSE](LICENSE). The lexer/parser/AST and language rules are
+written for the Cambridge 9618 examination pseudocode as specified in the
+linked guide; the guide itself is © Cambridge University Press & Assessment.
