@@ -1,5 +1,12 @@
 # Cambridge Pseudocode (9618) — VS Code Extension
 
+[![ci](https://github.com/fahrulseptiana/cambridge-pseudocode-lsp/actions/workflows/build-release.yml/badge.svg)](https://github.com/fahrulseptiana/cambridge-pseudocode-lsp/actions)
+[![release](https://img.shields.io/github/v/release/fahrulseptiana/cambridge-pseudocode-lsp)](https://github.com/fahrulseptiana/cambridge-pseudocode-lsp/releases)
+[![license](https://img.shields.io/github/license/fahrulseptiana/cambridge-pseudocode-lsp)](./LICENSE)
+[![last commit](https://img.shields.io/github/last-commit/fahrulseptiana/cambridge-pseudocode-lsp)](https://github.com/fahrulseptiana/cambridge-pseudocode-lsp/commits/main)
+[![language](https://img.shields.io/badge/language-TypeScript-3178c6)](https://www.typescriptlang.org/)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](https://github.com/fahrulseptiana/cambridge-pseudocode-lsp/pulls)
+
 Language support for **Cambridge International AS & A Level Computer Science 9618 pseudocode**
 (exams 2026), following the *Pseudocode Guide for Teachers* (Cambridge University Press & Assessment).
 
