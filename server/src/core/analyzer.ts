@@ -269,9 +269,10 @@ class Analyzer {
       }
     } else if (decl.form === 'enum' && decl.enumValues) {
       for (const v of decl.enumValues) {
+        const extent = { start: v.namePos, end: { line: v.namePos.line, char: v.namePos.char + v.name.length } };
         const vi: SymbolInfo = {
           name: v.name, kind: 'enum', typeText: decl.name, typeExpr: null,
-          namePos: v.namePos, declRange: { start: v.namePos, end: v.namePos }, scope: info.scope,
+          namePos: v.namePos, declRange: extent, scope: info.scope,
           declNode: null, members: new Map(), inherits: null,
         };
         info.members.set(v.name, vi);

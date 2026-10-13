@@ -24,6 +24,9 @@ function topLevel(model: DocumentModel): Flat[] {
   const result: Flat[] = [];
   const seen = new Set<string>();
   for (const s of model.allSymbols) {
+    // Enum values are children of their TYPE symbol, not separate outline roots
+    // (they live in the global scope so bare names like `Spring` resolve).
+    if (s.kind === 'enum') continue;
     // Top-level declarations only (duplicates already reported by the analyzer).
     const key = `${s.namePos.line}:${s.namePos.char}`;
     if (seen.has(key)) continue;
@@ -37,12 +40,17 @@ function topLevel(model: DocumentModel): Flat[] {
 }
 
 function symbolToFlat(s: SymbolInfo): Flat | null {
+  // LSP requires selectionRange ⊆ range. Symbols with zero-width declaration
+  // ranges (enum values, implicitly declared variables) get their range
+  // widened to at least cover the name so the outline stays valid.
+  const selection = { start: s.namePos, end: { line: s.namePos.line, char: s.namePos.char + s.name.length } };
+  const range = { start: s.declRange.start, end: isAfter(s.declRange.end, selection.end) ? s.declRange.end : selection.end };
   const base: Flat = {
     name: s.name,
     kind: flatKind(s),
     detail: detailOf(s),
-    range: { start: s.declRange.start, end: s.declRange.end },
-    selection: { start: s.namePos, end: { line: s.namePos.line, char: s.namePos.char + s.name.length } },
+    range,
+    selection,
     children: [],
   };
 
@@ -83,14 +91,17 @@ function symbolToFlat(s: SymbolInfo): Flat | null {
             children: [],
           }));
         } else if (node.form === 'enum' && node.enumValues) {
-          base.children = node.enumValues.map((v) => ({
-            name: v.name,
-            kind: SymbolKind.EnumMember,
-            detail: 'enum value',
-            range: { start: v.namePos, end: v.namePos },
-            selection: { start: v.namePos, end: { line: v.namePos.line, char: v.namePos.char + v.name.length } },
-            children: [],
-          }));
+          base.children = node.enumValues.map((v) => {
+            const extent = { start: v.namePos, end: { line: v.namePos.line, char: v.namePos.char + v.name.length } };
+            return {
+              name: v.name,
+              kind: SymbolKind.EnumMember,
+              detail: 'enum value',
+              range: extent,
+              selection: extent,
+              children: [],
+            };
+          });
         }
         break;
     }
@@ -136,4 +147,9 @@ function toDocumentSymbol(f: Flat): DocumentSymbol {
     selectionRange: toRange(f.selection),
     children: f.children.map(toDocumentSymbol),
   };
+}
+
+/** True when position `a` is at or after position `b` (line-major). */
+function isAfter(a: { line: number; char: number }, b: { line: number; char: number }): boolean {
+  return a.line > b.line || (a.line === b.line && a.char >= b.char);
 }
