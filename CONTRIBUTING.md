@@ -6,11 +6,12 @@ AS & A Level **Computer Science 9618 pseudocode** — and every contribution
 matters, whether it's a bug report, a test, a parser fix or documentation.
 
 Before you start, please read the [README](README.md) — it documents the
-architecture and the exact language coverage, and both are tightly coupled to
+architecture and the language coverage, both of which are tightly coupled to
 the design principles below.
 
 ## Table of contents
 
+- [Questions, bugs & feature requests](#questions-bugs--feature-requests)
 - [Development setup](#development-setup)
 - [Project layout](#project-layout)
 - [Design principles](#design-principles)
@@ -23,9 +24,21 @@ the design principles below.
 - [Code style](#code-style)
 - [License](#license)
 
+## Questions, bugs & feature requests
+
+- **Ask questions and report problems** by opening a [GitHub issue](../../issues).
+  Include the pseudocode snippet that triggers the problem — minimal examples
+  get faster answers.
+- When reporting a diagnostic that fires on valid code, mention the guide
+  section you believe applies (e.g. "the guide's §7.2") so the fix can be
+  checked against the exam specification.
+- The guide PDF itself is deliberately **not** in the repository (copyright);
+  if you need to double-check behaviour, the language coverage is summarised in
+  the README and the exact rules live in the analyzer tests.
+
 ## Development setup
 
-- **Node.js ≥ 18** (development happens on Node 20/24)
+- **Node.js ≥ 18** (development happens on Node 20/24; CI runs Node 20)
 - **npm** (the repo uses npm workspaces for `client/` and `server/`)
 - **VS Code** — needed only if you want to run the extension host
 
@@ -41,9 +54,7 @@ client/   VS Code extension — LSP client, TextMate grammar, language config
 server/   language server
   src/core/    pure language layer: lexicon → scanner → ast → parser → analyzer → formatter
   src/lsp/     protocol adapters: service seam + one provider module per feature
-  src/test/    unit tests (node:test)
-  ```
-
+  test/        unit tests (node:test)
 scripts/      lsp-smoke.mjs (e2e stdio test), package-vsix.mjs (release build)
 .github/      CI workflow
 sample/       example .pseudo files used by the smoke test
@@ -63,17 +74,17 @@ these invariants intact whenever you change code:
    coloring to pick it up.
 3. **One module, one job.** New LSP features go in a new file under
    `server/src/lsp/providers/` and are wired once in `server.ts`.
-4. **YAGNI** — don't add features the guide doesn't ask for, and use the weak,
-   literal-driven type inference already in the analyzer: avoid introducing
-   new false-positive errors on valid student code.
+4. **YAGNI** — don't add features the guide doesn't ask for, and keep the
+   analyzer's weak, literal-driven type inference: avoid introducing new
+   false-positive errors on valid student code.
 
 ## Building, testing, packaging
 
 ```bash
-npm run build          # tsc for server + client
-npm test               # unit tests (server/test/*.test.ts, node:test)
-node scripts/lsp-smoke.mjs     # end-to-end JSON-RPC session over stdio
-npm run package:vsix   # assemble a standalone .vsix into build/
+npm run build                # tsc for server + client
+npm test                     # unit tests (server/test/*.test.ts, node:test)
+node scripts/lsp-smoke.mjs   # end-to-end JSON-RPC session over stdio
+npm run package:vsix         # assemble a standalone .vsix into build/
 ```
 
 All of these run in CI on every push/PR. Please make sure they pass locally
@@ -103,8 +114,12 @@ npm run build -w server && node server/out/server.js --stdio
 - **New LSP feature**: create `lsp/providers/<feature>.ts` implementing it
   against the `DocumentModel` (see existing providers), then register the
   handler in `server.ts`.
-- **User-visible fixes that change behavior**: document the behavioural
-  decision in the README's "Intentional relaxations" section.
+- **User-visible fixes that change behaviour**: document the decision in the
+  README's "Intentional relaxations" section.
+- **Renaming the extension**: the id is `publisher.name` from
+  `client/package.json` (currently `fahrul.pseudo-lsp`) — remember to run
+  `npm install` afterwards so `package-lock.json` stays in sync, or `npm ci`
+  in CI will fail.
 
 ## Commit conventions
 
@@ -144,17 +159,21 @@ title should follow the same rules).
 
 Releases are cut from tags — no manual artifact uploads:
 
-1. Update `client/package.json` (and the root `package.json`) version.
+1. Bump the version in `client/package.json` and the root `package.json`
+   (they must agree).
 2. Tag and push:
 
    ```bash
-   git tag v0.1.0 && git push origin v0.1.0
+   git tag v0.1.1 && git push origin v0.1.1
    ```
 
-3. CI packages `cambridge-pseudocode-<version>.vsix`, verifies the tag matches
-   the packaged version, then creates a GitHub Release with the artifact.
+3. CI builds, tests and packages `pseudo-lsp-<version>.vsix`, *verifies the tag
+   matches the packaged version*, then creates a GitHub Release with the
+   artifact and auto-generated release notes.
 
-Tag names must match the extension version (`v0.1.0` ↔ version `0.1.0`).
+Tag names must match the extension version (`v0.1.1` ↔ version `0.1.1`) — a
+mismatch fails the workflow on purpose. To release without a tag (local CI
+check), `VERSION=x.y.z npm run package:vsix` stamps the version manually.
 
 ## Code style
 
