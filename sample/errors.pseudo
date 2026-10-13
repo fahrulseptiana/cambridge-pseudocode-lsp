@@ -1,0 +1,28 @@
+// This file intentionally contains mistakes — used to demo the diagnostics.
+
+DECLARE Count : INTEGER
+
+Count ← 3.5                    // type mismatch: REAL literal into INTEGER
+Undeclared ← 1                 // unknown identifier
+
+CONSTANT Max = 5
+Max ← 6                        // cannot assign to a constant
+
+IF Count = 3                   // missing THEN
+  OUTPUT Count
+ENDIF
+
+FOR I ← 1 TO 10
+  OUTPUT I
+NEXT J                         // NEXT identifier does not match loop variable
+
+CALL MissingProcedure()        // unknown procedure
+
+DECLARE X : INTEGER
+DECLARE X : REAL               // duplicate declaration
+
+OUTPUT RIGHT("ABCD", 1, 2)     // RIGHT takes 2 arguments
+
+WHILE TRUE
+  Count ← Count + 1
+ENDIF                          // wrong end keyword (should be ENDWHILE)

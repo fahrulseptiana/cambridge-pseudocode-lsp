@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-client",
+      "type": "npm",
+      "script": "build",
+      "path": ".",
+      "group": "build",
+      "problemMatcher": "$tsc",
+      "presentation": { "panel": "dedicated" }
+    },
+    {
+      "label": "build-server",
+      "type": "npm",
+      "script": "build",
+      "path": "../server",
+      "group": "build",
+      "problemMatcher": "$tsc",
+      "presentation": { "panel": "dedicated" }
+    },
+    {
+      "label": "build",
+      "dependsOrder": "sequence",
+      "dependsOn": ["build-server", "build-client"],
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

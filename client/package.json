@@ -1,0 +1,78 @@
+{
+  "name": "cambridge-pseudocode",
+  "displayName": "Cambridge Pseudocode (9618) — Language Support",
+  "description": "Syntax highlighting, diagnostics, completion, hover, go-to-definition, outline, folding, formatting and semantic colouring for Cambridge International AS & A Level Computer Science 9618 pseudocode.",
+  "version": "0.1.0",
+  "publisher": "local",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pseudo-code-lsp/cambridge-pseudocode"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "pseudocode",
+    "cambridge",
+    "9618",
+    "computer science",
+    "igcse"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "pseudocode",
+        "aliases": [
+          "Pseudocode",
+          "Cambridge Pseudocode",
+          "9618 Pseudocode"
+        ],
+        "extensions": [
+          ".pseudo",
+          ".psc"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "pseudocode",
+        "scopeName": "source.pseudocode",
+        "path": "./syntaxes/pseudocode.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "cambridgePseudocode.restartServer",
+        "title": "Pseudocode: Restart Language Server"
+      },
+      {
+        "command": "cambridgePseudocode.reportIssues",
+        "title": "Pseudocode: Report Issues for Active Document"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -w -p tsconfig.json",
+    "package": "npm run build && node ../scripts/package-vsix.mjs"
+  },
+  "dependencies": {
+    "vscode-languageclient": "~9.0.1",
+    "vscode-languageserver": "~9.0.1",
+    "vscode-languageserver-textdocument": "^1.0.12"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "~5.9.0"
+  }
+}

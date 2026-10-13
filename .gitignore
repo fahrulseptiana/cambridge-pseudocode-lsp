@@ -1,0 +1,12 @@
+node_modules/
+out/
+out-test/
+client/server/
+build/
+*.tsbuildinfo
+.vscode-test/
+pseudocode.txt
+*.vsix
+
+# Reference document (copyrighted Cambridge guide) — keep out of version control.
+697401-2026-pseudocode-guide-for-teachers.pdf

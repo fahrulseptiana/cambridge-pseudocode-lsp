@@ -1,0 +1,126 @@
+{
+  "name": "Cambridge Pseudocode (9618)",
+  "scopeName": "source.pseudocode",
+  "fileTypes": ["pseudo", "psc"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#declarations" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#builtins" },
+    { "include": "#operators" },
+    { "include": "#identifiers" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        { "match": "//.*$", "name": "comment.line.double-slash.pseudocode" }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        { "begin": "\"", "end": "\"", "name": "string.quoted.double.pseudocode" },
+        { "match": "'[^']'", "name": "string.quoted.single.pseudocode" }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        { "match": "\\b\\d{2}/\\d{2}/\\d{4}\\b", "name": "constant.other.date.pseudocode" },
+        { "match": "\\b\\d+\\.\\d+\\b", "name": "constant.numeric.pseudocode" },
+        { "match": "\\b\\d+\\b", "name": "constant.numeric.pseudocode" }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "match": "\\b(IF|THEN|ELSE|ENDIF|CASE|OF|OTHERWISE|ENDCASE|FOR|TO|STEP|NEXT|REPEAT|UNTIL|WHILE|ENDWHILE|RETURNS|RETURN|CALL|INHERITS|SUPER|NEW|SUPER)\\b",
+          "name": "keyword.control.pseudocode"
+        },
+        {
+          "match": "\\b(AND|OR|NOT|DIV|MOD)\\b",
+          "name": "keyword.operator.logical.pseudocode"
+        },
+        {
+          "match": "\\b(TRUE|FALSE)\\b",
+          "name": "constant.language.boolean.pseudocode"
+        },
+        {
+          "match": "\\b(DECLARE|CONSTANT|DEFINE|INPUT|OUTPUT|BYREF|BYVAL|PUBLIC|PRIVATE)\\b",
+          "name": "storage.modifier.pseudocode"
+        },
+        {
+          "match": "\\b(OPENFILE|READFILE|WRITEFILE|CLOSEFILE|SEEK|GETRECORD|PUTRECORD)\\b",
+          "name": "keyword.other.file.pseudocode"
+        },
+        {
+          "match": "\\b(READ|WRITE|APPEND|RANDOM)\\b",
+          "name": "constant.language.filemode.pseudocode"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "match": "\\b(INTEGER|REAL|CHAR|STRING|BOOLEAN|DATE|ARRAY)\\b",
+          "name": "storage.type.pseudocode"
+        }
+      ]
+    },
+    "builtins": {
+      "patterns": [
+        {
+          "match": "\\b(RIGHT|LENGTH|MID|LCASE|UCASE|INT|RAND|EOF)\\b",
+          "name": "support.function.builtin.pseudocode"
+        }
+      ]
+    },
+    "declarations": {
+      "patterns": [
+        {
+          "match": "\\b(PROCEDURE|FUNCTION|ENDPROCEDURE|ENDFUNCTION)\\s+(\\w+)?",
+          "captures": {
+            "1": { "name": "keyword.control.pseudocode" },
+            "2": { "name": "entity.name.function.pseudocode" }
+          }
+        },
+        {
+          "match": "\\b(CLASS|ENDCLASS)\\s+(\\w+)?",
+          "captures": {
+            "1": { "name": "keyword.control.pseudocode" },
+            "2": { "name": "entity.name.type.class.pseudocode" }
+          }
+        },
+        {
+          "match": "\\b(TYPE|ENDTYPE)\\s+(\\w+)?",
+          "captures": {
+            "1": { "name": "keyword.control.pseudocode" },
+            "2": { "name": "entity.name.type.pseudocode" }
+          }
+        },
+        {
+          "match": "\\b(DECLARE)\\s+(\\w+)\\s*:",
+          "captures": {
+            "1": { "name": "storage.modifier.pseudocode" },
+            "2": { "name": "variable.other.declaration.pseudocode" }
+          }
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        { "match": "←|<-|:=", "name": "keyword.operator.assignment.pseudocode" },
+        { "match": "<>|>=|<=|[-+*/^&=<>]", "name": "keyword.operator.pseudocode" }
+      ]
+    },
+    "identifiers": {
+      "patterns": [
+        {
+          "match": "\\b[A-Za-z][A-Za-z0-9_]*\\b",
+          "name": "variable.other.pseudocode"
+        }
+      ]
+    }
+  }
+}

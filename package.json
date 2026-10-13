@@ -1,0 +1,35 @@
+{
+  "name": "cambridge-pseudocode-lsp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "VS Code language server + extension for Cambridge International 9618 pseudocode (exams 2026).",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "build": "npm run build -w server && npm run build -w client",
+    "build:server": "npm run build -w server",
+    "build:client": "npm run build -w client",
+    "test": "npm run test -w server",
+    "package:vsix": "node scripts/package-vsix.mjs",
+    "watch": "npm run watch -w server & npm run watch -w client"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "language-server",
+    "lsp",
+    "pseudocode",
+    "cambridge",
+    "9618",
+    "computer-science",
+    "education"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@vscode/vsce": "^4.0.0",
+    "typescript": "~5.9.0"
+  }
+}
