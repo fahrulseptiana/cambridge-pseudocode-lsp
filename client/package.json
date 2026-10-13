@@ -1,9 +1,9 @@
 {
-  "name": "cambridge-pseudocode",
+  "name": "pseudo-lsp",
   "displayName": "Cambridge Pseudocode (9618) — Language Support",
   "description": "Syntax highlighting, diagnostics, completion, hover, go-to-definition, outline, folding, formatting and semantic colouring for Cambridge International AS & A Level Computer Science 9618 pseudocode.",
-  "version": "0.1.0",
-  "publisher": "local",
+  "version": "0.1.1",
+  "publisher": "id.fahrul",
   "private": true,
   "license": "MIT",
   "repository": {
